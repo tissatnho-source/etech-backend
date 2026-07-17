@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETECH - Partner Login Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .top-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; background: #fff; border-bottom: 1px solid #eee; }
+        .logo-text { font-size: 26px; font-weight: bold; color: #1a4f9c; display: flex; align-items: center; text-transform: uppercase; }
+        
+        .blue-bar { background-color: #1a4f9c; color: white; padding: 8px 40px; font-size: 13px; font-weight: bold; display: flex; justify-content: space-between; }
+        .blue-bar a { color: white; text-decoration: none; margin-right: 20px; }
+        
+        .main-container { display: flex; justify-content: center; align-items: center; padding: 40px; gap: 40px; max-width: 1300px; margin: 0 auto; }
+        .banner-side { flex: 1.2; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; background: #f9f9f9; position: relative; height: 350px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .banner-text h1 { color: #1a4f9c; font-weight: bold; font-size: 32px; margin-bottom: 15px; }
+        .banner-text ul { list-style: none; padding: 0; font-size: 16px; color: #333; line-height: 2; }
+        .banner-text ul li i { color: #d9534f; margin-right: 10px; }
+        .banner-img-mock { font-size: 150px; color: #1a4f9c; opacity: 0.8; }
+        
+        .login-side { flex: 0.8; max-width: 400px; }
+        .login-box { border: 1px solid #ddd; border-radius: 4px; padding: 25px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .login-box h3 { text-align: center; color: #1a4f9c; font-weight: bold; margin-bottom: 20px; font-size: 22px; border-bottom: 2px solid #1a4f9c; padding-bottom: 10px; }
+        
+        .input-group-text { background: #f1f1f1; color: #1a4f9c; }
+        .btn-login { background-color: #2c66be; color: white; border: none; padding: 8px 25px; font-weight: bold; width: 48%; }
+        .btn-login:hover { background-color: #1a4f9c; color: white; }
+        .btn-reset { background-color: #ff6b6b; color: white; border: none; padding: 8px 25px; font-weight: bold; width: 48%; }
+        .btn-reset:hover { background-color: #fa5252; color: white; }
+        
+        .captcha-box { display: flex; align-items: center; background: #f8f9fa; border: 1px solid #ccc; padding: 5px 15px; font-weight: bold; font-size: 20px; font-style: italic; color: #1a4f9c; letter-spacing: 5px; border-radius: 4px; justify-content: space-between; user-select: none; }
+        
+        .footer-bar { background-color: #1a4f9c; color: white; padding: 15px 40px; font-size: 12px; position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        .footer-links a { color: white; text-decoration: none; margin-right: 15px; }
+        .social-icons i { color: white; margin-left: 15px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<!-- 1. மேல் லோகோ பகுதி -->
+<div class="top-header">
+    <div class="logo-text"><i class="fa-solid fa-wallet me-2"></i>ETECH</div>
+    <div class="right-brand" style="display: none;"></div>
+</div>
+
+<!-- ப்ளூ மெனு பார் -->
+<div class="blue-bar">
+    <div>
+        <a href="#">ABOUT ETECH</a>
+        <a href="#">BECOME PARTNER</a>
+        <a href="#">CONTACT US</a>
+    </div>
+    <div><i class="fa-solid fa-headset me-2"></i>Helpline No.- +91 9444962355</div>
+</div>
+
+<!-- மெயின் பாடி (பேனர் + லாகின் பாக்ஸ்) -->
+<div class="main-container">
+    <div class="banner-side">
+        <div class="banner-text">
+            <h1>Become a<br>Partner with ETECH</h1>
+            <ul>
+                <li><i class="fa-solid fa-circle-check"></i> Multiple utility services</li>
+                <li><i class="fa-solid fa-circle-check"></i> Multilingual active platform</li>
+                <li><i class="fa-solid fa-circle-check"></i> 24*7 secure customer support</li>
+            </ul>
+        </div>
+        <div class="banner-img-mock d-none d-lg-block">
+            <i class="fa-solid fa-user-tie"></i>
+        </div>
+    </div>
+
+    <!-- வலது பக்க லாகின் ஃபார்ம் -->
+    <div class="login-side">
+        <div class="login-box">
+            <h3>Partner Login</h3>
+            <!-- 🌟 எரரை சரி செய்ய சரியான /admin/login ஆக மாற்றப்பட்டுள்ளது -->
+            <form action="/admin/login" method="POST" onsubmit="return validateLoginForm()">
+                <div class="mb-3">
+                    <label class="form-label small text-muted mb-1">User Code</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" name="username" class="form-control" placeholder="Enter User Code" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small text-muted mb-1">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    </div>
+                </div>
+
+                <!-- 🌟 ரியல்-டைம் மாறும் கேப்ட்சா பாக்ஸ் -->
+                <div class="mb-3">
+                    <div class="captcha-box mb-2">
+                        <span id="captchaCodeDisplay">XXXXX</span>
+                        <i class="fa-solid fa-rotate-right" onclick="generateCaptcha()" style="font-size:16px; cursor:pointer; color:#1a4f9c;"></i>
+                    </div>
+                    <input type="text" id="userCaptchaInput" class="form-control" placeholder="Enter Captcha Code" required>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-login">Login</button>
+                    <button type="reset" class="btn btn-reset" onclick="generateCaptcha()">Reset</button>
+                </div>
+                
+                <div class="d-flex justify-content-between mt-3" style="font-size: 11px;">
+                    <a href="#" class="text-secondary text-decoration-none">Forgot Password?</a>
+                    <a href="#" class="text-secondary text-decoration-none">Forgot User Code?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- கீழ் நீல நிற ஃபுட்டர் பார்டர் -->
+<div class="footer-bar">
+    <div class="footer-links">
+        <a href="#">Privacy Policy</a> | <a href="#">Term of Use</a> | <a href="#">Cancellation & Refund policy</a>
+    </div>
+    <div>etech solution | Customer Support Number - +91 9444962355</div>
+    <div class="social-icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-youtube"></i>
+        <i class="fa-brands fa-linkedin"></i>
+    </div>
+</div>
+
+<script>
+let currentCaptcha = "";
+
+// 🌟 தானாகவே ரேண்டம் கேப்ட்சா கோடு உருவாக்கும் பங்க்ஷன்
+function generateCaptcha() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let result = "";
+    for (let i = 0; i < 5; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    currentCaptcha = result;
+    // எழுத்துகளுக்கு இடையே இடைவெளி விட்டு காட்டுதல்
+    document.getElementById("captchaCodeDisplay").innerText = result.split("").join(" ");
+}
+
+// 🌟 லாகின் சப்மிட் செய்யும்போது கேப்ட்சா சரிபார்க்கும் லாஜிக்
+function validateLoginForm() {
+    const userInput = document.getElementById("userCaptchaInput").value.trim().toUpperCase();
+    if (userInput !== currentCaptcha) {
+        alert("தவறான கேப்ட்சா குறியீடு! (Invalid Captcha Code)");
+        generateCaptcha(); // தவறாக அடித்தால் புதிய கேப்ட்சா லோடாகும்
+        document.getElementById("userCaptchaInput").value = "";
+        return false;
+    }
+    return true;
+}
+
+// பக்கம் லோடாகும் போது கேப்ட்சாவை உருவாக்க
+window.onload = generateCaptcha;
+</script>
+
+</body>
+</html>

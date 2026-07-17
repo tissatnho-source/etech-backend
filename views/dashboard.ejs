@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eCASH - Master Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f4f7f6; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        
+        /* ROINET டாப் ஹெட்டர் */
+        .top-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; background: #fff; border-bottom: 1px solid #eee; }
+        .logo-text { font-size: 26px; font-weight: bold; color: #1a4f9c; display: flex; align-items: center; text-transform: uppercase; }
+        .logo-text span { color: #d9534f; }
+        .right-brand { font-size: 22px; font-weight: bold; color: #1a4f9c; font-style: italic; text-align: right; }
+        .right-brand span { color: #d9534f; display: block; font-size: 11px; letter-spacing: 2px; font-style: normal; }
+
+        /* பிரீமியம் நீல நிற மெனு பார் */
+        .roinet-nav { background-color: #1a4f9c !important; padding: 0 30px !important; }
+        .roinet-nav .nav-link { color: white !important; font-size: 13px; font-weight: bold; padding: 12px 20px !important; border-right: 1px solid rgba(255,255,255,0.1); }
+        .roinet-nav .nav-link:hover, .roinet-nav .active-link { background-color: #0d3875 !important; }
+        
+        .roinet-dropdown { background-color: #1a4f9c !important; border: none !important; border-radius: 0 !important; margin-top: 0 !important; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .roinet-dropdown .dropdown-item { color: white !important; font-size: 13px; font-weight: bold; padding: 10px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .roinet-dropdown .dropdown-item:hover { background-color: #0d3875 !important; }
+
+        /* வெல்கம் யூசர் பார் */
+        .user-welcome-bar { background-color: #e9ecef; padding: 8px 40px; font-size: 13px; font-weight: bold; color: #333; display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; }
+
+        /* கார்டுகள் மற்றும் பாக்ஸ்கள் */
+        .card { border: 1px solid #ced4da; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; background-color: #fff; }
+        .card-header { background-color: #f8f9fa; font-weight: bold; color: #1a4f9c; border-bottom: 1px solid #ced4da; font-size: 15px; }
+        .btn-custom { background-color: #1a4f9c; color: white; font-weight: bold; border-radius: 4px; }
+        .btn-custom:hover { background-color: #0d3875; color: white; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. மேல் லோகோ பகுதி -->
+    <div class="top-header">
+        <div class="logo-text"><i class="fa-solid fa-wallet me-2"></i>e<span>CASH</span></div>
+        <div class="right-brand">XPRESSO<span>BILL SHOP</span></div>
+    </div>
+
+    <!-- 2. ROINET ஸ்டைல் ப்ளூ மெனு பார் -->
+    <nav class="navbar navbar-expand-lg navbar-dark roinet-nav">
+      <div class="container-fluid p-0">
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav w-100">
+            <li class="nav-item"><a class="nav-link" href="#">CHANNEL</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">WALLET</a></li>
+            
+            <!-- SERVICES டிராப் டவுன் மெனு -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active-link" href="#" id="servicesDrop" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                SERVICES
+              </a>
+              <ul class="dropdown-menu roinet-dropdown" aria-labelledby="servicesDrop">
+                <li><a class="dropdown-item" href="#" onclick="changeService('MOBILE_RECHARGE')">📱 Mobile Recharge</a></li>
+                <li><a class="dropdown-item" href="#" onclick="changeService('DTH_RECHARGE')">📡 DTH Recharge</a></li>
+                <li><a class="dropdown-item" href="#" onclick="changeService('CABLE_TV')">📺 Cable TV</a></li>
+                <li><a class="dropdown-item" href="#" onclick="changeService('WATER_SUPPLY')">💧 Water Supply</a></li>
+              </ul>
+            </li>
+            
+            <li class="nav-item"><a class="nav-link" href="#">PRODUCT</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">HELPDESK</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">MIS</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">DOCUMENTS</a></li>
+            
+            <!-- லாக் அவுட் -->
+            <li class="nav-item ms-auto"><a href="/admin/login" class="nav-link" style="border-right:none; background-color:#d9534f;"><i class="fa-solid fa-power-off me-1"></i> LOGOUT</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 3. வெல்கம் மற்றும் பேலன்ஸ் பார் -->
+    <div class="user-welcome-bar">
+        <div>Welcome: <span class="text-primary"><%= users.find(u => u.role === 'ADMIN')?.name || 'Admin' %></span></div>
+        <div>Available Balance: <span class="text-success">₹<%= parseFloat(users.find(u => u.role === 'ADMIN')?.balance || 0).toFixed(2) %></span></div>
+    </div>
+
+    <!-- 4. மெயின் கன்டென்ட் ஏரியா -->
+    <div class="container-fluid p-4">
+        <div class="row">
+            <!-- இடது பக்கம்: Quick Utility Recharge -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header"><i class="fa-solid fa-bolt me-1"></i> Quick Utility Recharge</div>
+                    <div class="card-body">
+                        <label class="form-label font-weight-bold">Active Service</label>
+                        <select id="mainServiceSelect" class="form-select mb-3" onchange="updateOperators()" disabled style="background-color: #e9ecef;">
+                            <option value="MOBILE_RECHARGE">Mobile Recharge</option>
+                            <option value="DTH_RECHARGE">DTH Recharge</option>
+                            <option value="CABLE_TV">Cable TV</option>
+                            <option value="WATER_SUPPLY">Water Supply</option>
+                        </select>
+
+                        <label class="form-label">Select Operator</label>
+                        <select id="operatorSelect" class="form-select mb-3" onchange="loadOperatorPlans()">
+                        </select>
+
+                        <div class="mb-3">
+                            <label class="form-label">Available Plans:</label>
+                            <select id="availablePlansSelect" class="form-select" size="4">
+                            </select>
+                        </div>
+
+                        <input type="text" class="form-control mb-3" placeholder="Enter Mobile / Subscriber ID / Consumer No">
+                        <input type="number" class="form-control mb-3" placeholder="Enter Amount (₹)">
+                        <button class="btn btn-custom w-100">Pay & Recharge Now</button>
+                    </div>
+                </div>
+
+                <!-- மேனுவல் பிளான் மேனேஜர் -->
+                <div class="card">
+                    <div class="card-header"><i class="fa-solid fa-gear me-1"></i> Manual Plan Manager</div>
+                    <div class="card-body">
+                        <input type="number" class="form-control mb-2" placeholder="Plan Amount (₹)">
+                        <input type="text" class="form-control mb-2" placeholder="Validity (e.g. 28 Days)">
+                        <input type="text" class="form-control mb-3" placeholder="Description">
+                        <button class="btn btn-warning w-100 fw-bold text-dark">+ Add Plan to Selected Operator</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- வலது பக்கம்: யூசர்கள் மற்றும் ரெக்வஸ்ட்டுகள் -->
+            <div class="col-md-8">
+                <!-- கேஷ் ரெக்வஸ்ட் டேபிள் -->
+                <div class="card">
+                    <div class="card-header"><i class="fa-solid fa-envelope open me-1"></i> Pending Cash Requests</div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>User Info</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (cashRequests && cashRequests.length > 0) { %>
+                                    <% cashRequests.forEach(req => { %>
+                                        <tr>
+                                            <td><strong><%= req.phone %></strong></td>
+                                            <td><span class="badge bg-warning text-dark"><%= req.type %></span></td>
+                                            <td>₹<%= req.amount %></td>
+                                            <td>
+                                                <button class="btn btn-success btn-sm" onclick="controlWallet('<%= req.phone %>', '<%= req.amount %>', 'approve')">Approve</button>
+                                                <button class="btn btn-danger btn-sm" onclick="controlWallet('<%= req.phone %>', '<%= req.amount %>', 'reject')">Reject</button>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                <% } else { %>
+                                    <tr><td colspan="4" class="text-center text-muted p-3">No pending cash requests found.</td></tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- சிஸ்டம் யூசர் பேஸ் -->
+                <div class="card">
+                    <div class="card-header"><i class="fa-solid fa-users me-1"></i> System User Base</div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Wallet</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(user => { %>
+                                    <tr>
+                                        <td><%= user.name %></td>
+                                        <td><%= user.username %></td>
+                                        <td><span class="badge <%= user.role === 'ADMIN' ? 'bg-danger' : 'bg-success' %>"><%= user.role %></span></td>
+                                        <td><strong>₹<%= parseFloat(user.balance || 0).toFixed(2) %></strong></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/bundle.min.js"></script>
+    <script>
+        const allServerPlans = <%- JSON.stringify(plans || {}) %>;
+        const operatorsMap = {
+            MOBILE_RECHARGE: ['JIO', 'AIRTEL', 'BSNL'],
+            DTH_RECHARGE: ['SUN_DIRECT', 'TATA_PLAY'],
+            CABLE_TV: ['SCV', 'TCCL'],
+            WATER_SUPPLY: ['CHENNAI_METRO', 'MUNICIPALITY']
+        };
+
+        function changeService(serviceKey) {
+            document.getElementById('mainServiceSelect').value = serviceKey;
+            updateOperators();
+        }
+
+        function updateOperators() {
+            const mainService = document.getElementById('mainServiceSelect').value;
+            const operatorSelect = document.getElementById('operatorSelect');
+            operatorSelect.innerHTML = '';
+
+            if (operatorsMap[mainService]) {
+                operatorsMap[mainService].forEach(op => {
+                    const opt = document.createElement('option');
+                    opt.value = op;
+                    opt.textContent = op.replace('_', ' ');
+                    operatorSelect.appendChild(opt);
+                });
+            }
+            loadOperatorPlans();
+        }
+
+        function loadOperatorPlans() {
+            const mainService = document.getElementById('mainServiceSelect').value;
+            const operator = document.getElementById('operatorSelect').value;
+            const plansSelect = document.getElementById('availablePlansSelect');
+            plansSelect.innerHTML = '';
+
+            try {
+                const operatorPlans = allServerPlans[mainService][operator];
+                if (operatorPlans && operatorPlans.length > 0) {
+                    operatorPlans.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p.amount;
+                        opt.textContent = `₹${p.amount} | ${p.validity} - ${p.desc}`;
+                        plansSelect.appendChild(opt);
+                    });
+                } else {
+                    plansSelect.innerHTML = '<option disabled>No plans found</option>';
+                }
+            } catch(e) {
+                plansSelect.innerHTML = '<option disabled>No plans found</option>';
+            }
+        }
+
+        function controlWallet(userId, amount, action) {
+            fetch('/admin/update-wallet', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, amount, action })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if(data.success) location.reload();
+            });
+        }
+
+        updateOperators();
+    </script>
+</body>
+</html>

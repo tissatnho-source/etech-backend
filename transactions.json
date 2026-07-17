@@ -1,0 +1,25 @@
+[
+  {
+    "id": "EC5124720",
+    "customer": "9500248617",
+    "type": "MOBILE",
+    "number": "9500248617",
+    "amount": 200,
+    "totalZuelComm": 7,
+    "adminEarned": 4,
+    "retailerEarned": 3,
+    "retailerId": "9176682226",
+    "date": "6/22/2026, 5:12:04 AM"
+  },
+  {
+    "id": "ZLP64925879",
+    "customer": "9500248617",
+    "retailerId": "9176682226",
+    "type": "MOBILE",
+    "amount": 19,
+    "adminEarned": 0.38000000000000006,
+    "retailerEarned": 0.285,
+    "status": "success",
+    "date": "2026-06-22T09:19:24.440Z"
+  }
+]

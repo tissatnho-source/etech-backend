@@ -1,0 +1,19 @@
+{
+  "MOBILE_RECHARGE": {
+    "JIO": [],
+    "AIRTEL": [],
+    "BSNL": []
+  },
+  "DTH_RECHARGE": {
+    "SUN_DIRECT": [],
+    "TATA_PLAY": []
+  },
+  "CABLE_TV": {
+    "SCV": [],
+    "TCCL": []
+  },
+  "WATER_SUPPLY": {
+    "CHENNAI_METRO": [],
+    "MUNICIPALITY": []
+  }
+}

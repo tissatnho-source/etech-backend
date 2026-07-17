@@ -1,0 +1,31 @@
+[
+  {
+    "username": "manimaran",
+    "password": "ecashmasterpassword",
+    "name": "Manimaran (Master)",
+    "role": "ADMIN",
+    "balance": 500004.38
+  },
+  {
+    "username": "9176682226",
+    "password": "9176682226",
+    "name": "Kanniyappan",
+    "role": "RETAILER",
+    "balance": 1003.285,
+    "referredBy": null,
+    "customComm": 1.5,
+    "customExpiry": 12,
+    "createdAt": "2026-06-22T04:59:03.053Z"
+  },
+  {
+    "username": "9500248617",
+    "password": "9500248617",
+    "name": "blessy",
+    "role": "CUSTOMER",
+    "balance": 281,
+    "referredBy": "9176682226",
+    "customComm": null,
+    "customExpiry": null,
+    "createdAt": "2026-06-22T05:09:09.580Z"
+  }
+]
