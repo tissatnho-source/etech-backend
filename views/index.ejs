@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etech Home</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+        
+        /* லோகோ மற்றும் பேலன்ஸ் ஹெடர் பகுதி */
+        .header-top {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }
+        .user-info {
+            font-size: 14px;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        /* வரவேற்புச் செய்தி பகுதி */
+        .welcome-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            text-align: center;
+        }
+
+        .welcome-box {
+            background-color: #ffffff;
+            padding: 40px 60px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #0056b3;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- மற்ற பக்கங்களைப் போலவே லோகோ மற்றும் பேலன்ஸ் காட்டும் பகுதி -->
+    <div class="header-top">
+        <div class="logo-text">ETECH</div>
+        <div class="user-info">
+            Welcome, <%= user ? user.username : 'User' %> | Balance: <strong>₹<%= user ? user.balance : '0.00' %></strong>
+        </div>
+    </div>
+
+    <!-- நேவிகேஷன் பார் (நீல நிற பட்டை மற்றும் லாக் அவுட் பட்டனுடன்) -->
+    <%- include('navbar') %>
+
+    <!-- ETECH வரவேற்புச் செய்தி -->
+    <div class="welcome-container">
+        <div class="welcome-box">
+            <h1>Welcome to ETECH</h1>
+            <p>Your Trusted Digital Services Platform</p>
+        </div>
+    </div>
+
+</body>
+</html>

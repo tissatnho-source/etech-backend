@@ -1,0 +1,26 @@
+[
+  {
+    "username": "manimaran",
+    "password": "ecashmasterpassword",
+    "name": "Manimaran (Master Admin)",
+    "role": "ADMIN",
+    "balance": 10000
+  },
+  {
+    "username": "9840480784",
+    "password": "9840480784",
+    "name": "kanniyappan",
+    "role": "RETAILER",
+    "balance": 4903,
+    "createdAt": "2026-06-20T17:58:36.823Z"
+  },
+  {
+    "username": "9176682226",
+    "password": "9176682226",
+    "name": "blessy",
+    "role": "RETAILER",
+    "balance": 0,
+    "createdBy": "manimaran",
+    "createdAt": "6/22/2026, 4:36:46 AM"
+  }
+]

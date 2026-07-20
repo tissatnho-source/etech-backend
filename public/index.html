@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ETECH DASHBOARD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h3>Partner List</h3>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#partnerModal">+ Add New Partner</button>
+    <table class="table table-bordered mt-3">
+        <thead><tr><th>Name</th><th>Mobile</th></tr></thead>
+        <tbody id="partnerTableBody"></tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="partnerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <input type="text" id="fname" class="form-control mb-2" placeholder="First Name">
+                <input type="text" id="mobile" class="form-control mb-2" placeholder="Mobile">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="submitBtn">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+    const db = getDatabase(initializeApp({
+        apiKey: "AIzaSyANGIMnPA9cMx1PwPvZkyOjTFM_ZDEOXQ8",
+        databaseURL: "https://ecash-43926-default-rtdb.firebaseio.com",
+        projectId: "ecash-43926"
+    }));
+
+    document.getElementById('submitBtn').addEventListener('click', () => {
+        const name = document.getElementById('fname').value;
+        const mobile = document.getElementById('mobile').value;
+        push(ref(db, 'partners/'), { fname: name, mobile: mobile })
+        .then(() => { alert("Saved!"); location.reload(); });
+    });
+
+    onValue(ref(db, 'partners/'), (snap) => {
+        const body = document.getElementById('partnerTableBody');
+        body.innerHTML = "";
+        snap.forEach(c => {
+            const p = c.val();
+            body.innerHTML += `<tr><td>${p.fname}</td><td>${p.mobile}</td></tr>`;
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

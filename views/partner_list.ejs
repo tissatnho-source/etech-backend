@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include('header.ejs') %>
+</head>
+<body>
+    <div class="header-top">
+        <h3>ETECH</h3>
+        <div>Welcome, User | Balance: <b>₹7097.76</b></div>
+    </div>
+    <%- include('navbar.ejs') %>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>Partner List</h3>
+            <button type="button" class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#partnerModal">
+                + Add New Partner
+            </button>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% partners.forEach(function(partner) { %>
+                    <tr>
+                        <td><%= partner.name %></td>
+                        <td><%= partner.mobile %></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-info"
+                                onclick="editPartner('<%= partner._id %>', '<%= partner.name %>', '<%= partner.mobile %>', '<%= partner.email %>', '<%= partner.address1 %>', '<%= partner.address2 %>', '<%= partner.state %>', '<%= partner.district %>', '<%= partner.pincode %>', '<%= partner.partnerCode %>', '<%= partner.referralCode %>', '<%= partner.username %>', '<%= partner.functionalArea ? partner.functionalArea.join(',') : '' %>')">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add New Partner Modal -->
+    <div class="modal fade" id="partnerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Partner</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/admin/partner/add" method="POST" class="row g-3">
+                        <div class="col-md-6"><label>Name</label><input type="text" name="name" class="form-control" required></div>
+                        <div class="col-md-6"><label>Mobile</label><input type="text" name="mobile" class="form-control" required></div>
+                        <div class="col-md-6"><label>Email</label><input type="email" name="email" class="form-control"></div>
+                        <div class="col-md-6"><label>Address 1</label><input type="text" name="address1" class="form-control"></div>
+                        <div class="col-md-6"><label>Address 2</label><input type="text" name="address2" class="form-control"></div>
+                        <div class="col-md-4"><label>State</label><input type="text" name="state" class="form-control"></div>
+                        <div class="col-md-4"><label>District</label><input type="text" name="district" class="form-control"></div>
+                        <div class="col-md-4"><label>Pincode</label><input type="text" name="pincode" class="form-control"></div>
+                        <div class="col-md-6"><label>Partner Code</label><input type="text" name="partnerCode" class="form-control"></div>
+                        <div class="col-md-6"><label>Referral Code</label><input type="text" name="referralCode" class="form-control"></div>
+                        <div class="col-md-6"><label>Username</label><input type="text" name="username" class="form-control" required></div>
+                        <div class="col-md-6"><label>Password</label><input type="password" name="password" class="form-control" required></div>
+                        
+                        <div class="col-12">
+                            <label><b>Functional Area:</b></label>
+                            <div class="border p-2 rounded">
+                                <input type="checkbox" name="functionalArea" value="Recharge"> Recharge
+                                <input type="checkbox" name="functionalArea" value="Money Transfer"> Money Transfer
+                                <input type="checkbox" name="functionalArea" value="AEPS"> AEPS
+                            </div>
+                        </div>
+                        <div class="col-12 text-center mt-3">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Partner Modal -->
+    <div class="modal fade" id="editPartnerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="editPartnerForm" method="POST">
+                    <div class="modal-header"><h5 class="modal-title">Edit Partner</h5></div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label>Name</label><input type="text" name="name" id="editName" class="form-control"></div>
+                            <div class="col-md-6"><label>Mobile</label><input type="text" name="mobile" id="editMobile" class="form-control"></div>
+                            <div class="col-md-6"><label>Email</label><input type="email" name="email" id="editEmail" class="form-control"></div>
+                            <div class="col-md-6"><label>Address 1</label><input type="text" name="address1" id="editAddress1" class="form-control"></div>
+                            <div class="col-md-6"><label>Address 2</label><input type="text" name="address2" id="editAddress2" class="form-control"></div>
+                            <div class="col-md-4"><label>State</label><input type="text" name="state" id="editState" class="form-control"></div>
+                            <div class="col-md-4"><label>District</label><input type="text" name="district" id="editDistrict" class="form-control"></div>
+                            <div class="col-md-4"><label>Pincode</label><input type="text" name="pincode" id="editPincode" class="form-control"></div>
+                            <div class="col-md-6"><label>Partner Code</label><input type="text" name="partnerCode" id="editPartnerCode" class="form-control"></div>
+                            <div class="col-md-6"><label>Referral Code</label><input type="text" name="referralCode" id="editReferralCode" class="form-control"></div>
+                            <div class="col-md-6"><label>Username</label><input type="text" name="username" id="editUsername" class="form-control"></div>
+                            <div class="col-md-6"><label>New Password</label><input type="password" name="password" class="form-control" placeholder="Leave blank to keep current"></div>
+                            
+                            <div class="col-12">
+                                <label><b>Functional Area:</b></label>
+                                <div class="border p-2 rounded">
+                                    <input type="checkbox" name="functionalArea" value="Recharge"> Recharge
+                                    <input type="checkbox" name="functionalArea" value="Money Transfer"> Money Transfer
+                                    <input type="checkbox" name="functionalArea" value="AEPS"> AEPS
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function editPartner(id, name, mobile, email, addr1, addr2, state, dist, pincode, pCode, refCode, username, functionalAreas) {
+        document.getElementById('editPartnerForm').action = '/admin/partner/update/' + id;
+        document.getElementById('editName').value = name;
+        document.getElementById('editMobile').value = mobile;
+        document.getElementById('editEmail').value = email;
+        document.getElementById('editAddress1').value = addr1;
+        document.getElementById('editAddress2').value = addr2;
+        document.getElementById('editState').value = state;
+        document.getElementById('editDistrict').value = dist;
+        document.getElementById('editPincode').value = pincode;
+        document.getElementById('editPartnerCode').value = pCode;
+        document.getElementById('editReferralCode').value = refCode;
+        document.getElementById('editUsername').value = username;
+
+        // Checkboxes handling
+        let areas = functionalAreas.split(',');
+        document.querySelectorAll('#editPartnerForm input[name="functionalArea"]').forEach(cb => {
+            cb.checked = areas.includes(cb.value);
+        });
+        
+        var myModal = new bootstrap.Modal(document.getElementById('editPartnerModal'));
+        myModal.show();
+    }
+    </script>
+</body>
+</html>

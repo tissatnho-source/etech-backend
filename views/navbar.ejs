@@ -1,0 +1,137 @@
+<div class="nav-bar">
+    <!-- இடதுபுறம் உள்ள மெனுக்கள் -->
+    <div class="nav-left">
+        <a class="nav-link" href="/home">HOME</a>
+        <a class="nav-link" href="#">WALLET</a>
+
+        <!-- PROJECTS Dropdown -->
+        <div class="nav-item dropdown menu-container">
+            <a class="nav-link" href="#">PROJECTS</a>
+            <ul class="dropdown-menu custom-dropdown">
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">RECHARGE & BILLS <span>▶</span></a>
+                    <ul class="submenu">
+                        <li><a class="dropdown-item" href="/mobile-prepaid">Mobile Prepaid</a></li>
+                        <li><a class="dropdown-item" href="/dth">DTH</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">ETECH SERVICES <span>▶</span></a>
+                    <ul class="submenu">
+                        <li><a class="dropdown-item" href="/cable-tv">Cable TV</a></li>
+                        <li><a class="dropdown-item" href="/water">Water Supply</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">FINANCIAL SERVICES <span>▶</span></a>
+                    <ul class="submenu">
+                        <li><a class="dropdown-item" href="/cash-req">Cash Req</a></li>
+                        <li><a class="dropdown-item" href="/eb-bill">EB Bill</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- PARTNER Dropdown -->
+        <div class="nav-item dropdown menu-container">
+            <a class="nav-link" href="#">PARTNER</a>
+            <ul class="dropdown-menu custom-dropdown">
+                <li><a class="dropdown-item" href="/partner-list">PARTNER</a></li>
+                <li><a class="dropdown-item" href="/vendor-list">VENDOR</a></li>
+                <li><a class="dropdown-item" href="/customer-list">CUSTOMER</a></li>
+            </ul>
+        </div>
+
+        <a class="nav-link" href="#">MIS</a>
+        <a class="nav-link" href="#">HELP DESK</a>
+    </div>
+
+    <!-- வலதுபுறம் உள்ள LOGOUT பட்டன் -->
+    <div class="nav-right">
+        <a class="nav-link logout-btn" href="/logout">LOGOUT</a>
+    </div>
+</div>
+
+<style>
+    /* 1. மெனு பார் (Flexbox மூலம் இருபுறம் பிரிக்கப்பட்டுள்ளது) */
+    .nav-bar { 
+        background-color: #0056b3; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        padding: 0px 20px; 
+        width: 100%; 
+        margin: 0 auto; 
+    }
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+    }
+
+    /* 2. மெனு லிங்க் ஸ்டைல் */
+    .nav-link { 
+        color: white !important; 
+        font-weight: 600; 
+        padding: 8px 15px !important; 
+        text-decoration: none; 
+        cursor: pointer; 
+    }
+
+    /* Logout பட்டனுக்கான தனித்துவமான தோற்றம் (விருப்பப்பட்டால் மாற்றிக்கொள்ளலாம்) */
+    .logout-btn {
+        background-color: #dc3545; /* சிவப்பு நிறம் */
+        border-radius: 4px;
+        transition: background 0.3s;
+    }
+    .logout-btn:hover {
+        background-color: #bd2130 !important;
+    }
+
+    /* 3. மெனு கன்டெய்னர் (Hover செயல்பாட்டிற்கு) */
+    .menu-container { position: relative; }
+    
+    /* மெனுவைத் திறக்க */
+    .menu-container:hover .custom-dropdown { display: block !important; }
+
+    /* 4. டிராப்-டவுன் */
+    .custom-dropdown { 
+        display: none; 
+        position: absolute; 
+        top: 100%; 
+        left: 0; 
+        background-color: #0056b3 !important; 
+        min-width: 250px; 
+        padding: 0; 
+        margin: 0; 
+        border: none;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .dropdown-item { color: white !important; padding: 10px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .dropdown-item:hover { background-color: #004494 !important; }
+
+    /* 5. சப்-மெனு */
+    .dropdown-submenu { position: relative; }
+    .submenu { 
+        display: none; 
+        position: absolute; 
+        top: 0; 
+        left: 100%; 
+        width: 250px; 
+        background-color: #0056b3 !important; 
+        padding: 0; 
+        margin: 0; 
+        border: none;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    
+    /* குறிப்பிட்ட சப்-மெனுவை மட்டும் காட்ட */
+    .dropdown-submenu:hover .submenu { display: block !important; }
+</style>

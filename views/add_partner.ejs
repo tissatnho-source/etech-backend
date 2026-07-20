@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include('header.ejs') %>
+</head>
+<body>
+    <div class="header-top">
+        <h3>ETECH</h3>
+        <div>Welcome, User | Balance: <b>₹7097.76</b></div>
+    </div>
+    <%- include('navbar.ejs') %>
+
+    <div class="container mt-4">
+        <h3 class="mb-4">Add New Partner</h3>
+        <form action="/admin/partner/add" method="POST" class="row g-3">
+            <div class="col-md-6"><label>First Name</label><input type="text" name="firstName" class="form-control" required></div>
+            <div class="col-md-6"><label>Last Name</label><input type="text" name="lastName" class="form-control" required></div>
+            <div class="col-md-6"><label>Mobile</label><input type="text" name="mobile" class="form-control" required></div>
+            <div class="col-md-6"><label>Email</label><input type="email" name="email" class="form-control"></div>
+            <div class="col-md-4"><label>State</label><input type="text" name="state" class="form-control"></div>
+            <div class="col-md-4"><label>District</label><input type="text" name="district" class="form-control"></div>
+            <div class="col-md-4"><label>Pincode</label><input type="text" name="pincode" class="form-control"></div>
+            <div class="col-md-6"><label>Address Line 1</label><input type="text" name="address1" class="form-control"></div>
+            <div class="col-md-6"><label>Address Line 2</label><input type="text" name="address2" class="form-control"></div>
+            <div class="col-md-6"><label>Partner Code</label><input type="text" name="partnerCode" class="form-control"></div>
+            <div class="col-md-6"><label>Referral Code</label><input type="text" name="referralCode" class="form-control"></div>
+            <div class="col-md-6"><label>Username</label><input type="text" name="username" class="form-control" required></div>
+            <div class="col-md-6"><label>Password</label><input type="password" name="password" class="form-control" required></div>
+            
+            <div class="col-12">
+                <label><b>Select Functional Areas:</b></label>
+                <div class="p-3 border">
+                    <div class="form-check form-check-inline"><input type="checkbox" name="services" value="Prepaid" class="form-check-input"><label>Prepaid</label></div>
+                    <div class="form-check form-check-inline"><input type="checkbox" name="services" value="Postpaid" class="form-check-input"><label>Postpaid</label></div>
+                    <div class="form-check form-check-inline"><input type="checkbox" name="services" value="DTH" class="form-check-input"><label>DTH</label></div>
+                    <div class="form-check form-check-inline"><input type="checkbox" name="services" value="Broadband" class="form-check-input"><label>Broadband</label></div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-success">Submit</button>
+                <a href="/partner-list" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<%- include('header.ejs') %>
+</head>
+<body>
+	<div class="header-top">
+        <h3>ETECH</h3>
+        <div>Welcome, User | Balance: <b>₹7097.76</b></div>
+</div>
+<%- include('navbar.ejs') %>
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between mb-3 align-items-center">
+        <h3 id="pageTitle">Partner List</h3>
+        <div>
+        href="/admin/partner/add" class="btn btn-primary fw-bold">+ Add New Partner</
+        href="/admin/vendor/add" class="btn btn-primary fw-bold">+ Add New Vendor</
+        href="/admin/customer/add" class="btn btn-primary fw-bold">+ Add New Customer</
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="table-primary">
+            <tr><th>Name</th><th>Mobile</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="partnerTableBody"></tbody>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="partnerModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header"><h5>Add New Partner</h5></div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3"><input type="text" id="fname" class="form-control" placeholder="First Name"></div>
+                    <div class="col-md-6 mb-3"><input type="text" id="lname" class="form-control" placeholder="Last Name"></div>
+                    <div class="col-md-6 mb-3"><input type="text" id="mobile" class="form-control" placeholder="Mobile"></div>
+                    <div class="col-md-6 mb-3"><input type="email" id="email" class="form-control" placeholder="Email"></div>
+                    <div class="col-md-6 mb-3"><input type="text" id="state" class="form-control" placeholder="State"></div>
+                    <div class="col-md-6 mb-3"><input type="text" id="district" class="form-control" placeholder="District"></div>
+                    <div class="col-md-12 mb-3"><textarea id="address" class="form-control" placeholder="Address"></textarea></div>
+                    <div class="col-md-6 mb-3"><input type="text" id="pcode" class="form-control" placeholder="Partner Code"></div>
+                    <div class="col-md-6 mb-3"><input type="text" id="refcode" class="form-control" placeholder="Referral Code"></div>
+                    <div class="col-md-6 mb-3"><input type="text" id="username" class="form-control" placeholder="Username"></div>
+                    <div class="col-md-6 mb-3"><input type="password" id="password" class="form-control" placeholder="Password"></div>
+                </div>
+                <label><b>Select Functional Areas:</b></label>
+                <div class="row p-3 border">
+                    <div class="col-md-4">
+                        <h6>RECHARGE</h6>
+                        <input type="checkbox" name="area" value="Prepaid"> Prepaid | <input type="checkbox" name="area" value="Postpaid"> P>                        <input type="checkbox" name="area" value="DTH"> DTH | <input type="checkbox" name="area" value="Broadband"> Broadband                    </div>
+                    <div class="col-md-4">
+                        <h6>ETECH</h6>
+                        <input type="checkbox" name="area" value="Cable"> Cable | <input type="checkbox" name="area" value="Water"> Water<br>                        <input type="checkbox" name="area" value="Groceries"> Groceries | <input type="checkbox" name="area" value="Ads"> Ads                    </div>
+                    <div class="col-md-4">
+                        <h6>FINANCIAL</h6>
+                        <input type="checkbox" name="area" value="Cash"> Cash | <input type="checkbox" name="area" value="Loan"> Loan<br>
+                        <input type="checkbox" name="area" value="EB"> EB | <input type="checkbox" name="area" value="Invest"> Invest
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-success" onclick="saveData()">Submit</button></div>
+        </div>
+    </div>
+</div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+    const db = getDatabase(initializeApp({
+        apiKey: "AIzaSyANGIMnPA9cMx1PwPvZkyOjTFM_ZDEOXQ8",
+        databaseURL: "https://ecash-43926-default-rtdb.firebaseio.com",
+        projectId: "ecash-43926"
+    }));
+
+    window.saveData = () => {
+        let areas = [];
+        document.querySelectorAll('input[name="area"]:checked').forEach(c => areas.push(c.value));
+        push(ref(db, 'partners/'), {
+            fname: document.getElementById('fname').value,
+            lname: document.getElementById('lname').value,
+            mobile: document.getElementById('mobile').value,
+            email: document.getElementById('email').value,
+            state: document.getElementById('state').value,
+            district: document.getElementById('district').value,
+            address: document.getElementById('address').value,
+            pcode: document.getElementById('pcode').value,
+            refcode: document.getElementById('refcode').value,
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value,
+            areas: areas
+        }).then(() => { alert("Saved!"); location.reload(); });
+    };
+
+    onValue(ref(db, 'partners/'), (snap) => {
+        const body = document.getElementById('partnerTableBody');
+        body.innerHTML = "";
+        snap.forEach(c => {
+            const p = c.val();
+            body.innerHTML += `<tr><td>${p.fname} ${p.lname}</td><td>${p.mobile}</td><td><button class='btn btn-warning btn-sm'>Edit</button>        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

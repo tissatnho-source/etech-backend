@@ -1,0 +1,58 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    /* 1. மெனு பார் உயரம் குறைக்க */
+    .nav-bar { 
+        background-color: #0056b3; 
+        display: flex; 
+        padding: 0px 20px; /* மேம் மற்றும் கீழ் Padding-ஐ 0 ஆக்கியுள்ளோம் */
+        align-items: center; 
+        width: 100%; 
+        margin: 0 auto; 
+    }
+
+    /* 2. எழுத்துக்களின் உயரத்தை (Padding) குறைக்க */
+    .nav-link { 
+        color: white !important; 
+        font-weight: 600; 
+        padding: 8px 15px !important; /* உயரத்தைக் குறைக்க இதைக் குறைத்துள்ளோம் */
+        text-decoration: none; 
+        cursor: pointer; 
+    }
+
+    /* மற்ற ஸ்டைல்கள் அப்படியே இருக்கட்டும் */
+    .menu-container { position: relative; }
+    .menu-container:hover .custom-dropdown { display: block !important; }
+
+    .custom-dropdown { 
+        display: none; 
+        position: absolute; 
+        top: 100%; 
+        left: 0; 
+        background-color: #0056b3 !important; 
+        min-width: 250px; 
+        padding: 0; 
+        margin: 0; 
+        border: none;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .dropdown-item { color: white !important; padding: 10px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .dropdown-item:hover { background-color: #004494 !important; }
+
+    .dropdown-submenu { position: relative; }
+    .submenu { 
+        display: none; 
+        position: absolute; 
+        top: 0; 
+        left: 100%; 
+        width: 250px; 
+        background-color: #0056b3 !important; 
+        padding: 0; 
+        margin: 0; 
+        border: none;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    
+    .dropdown-submenu:hover .submenu { display: block !important; }
+</style>
