@@ -1,0 +1,56 @@
+{
+  "JIO": [
+    {
+      "id": "jio_19",
+      "amount": 19,
+      "validity": "1 Day",
+      "desc": "Data Booster: 1.5 GB Data"
+    },
+    {
+      "id": "jio_299",
+      "amount": 299,
+      "validity": "28 Days",
+      "desc": "1.5 GB/Day, Unlimited Voice, 100 SMS/Day"
+    },
+    {
+      "id": "jio_749",
+      "amount": 749,
+      "validity": "90 Days",
+      "desc": "2 GB/Day, Unlimited Voice, Hero Unlimited benefits"
+    },
+    {
+      "id": "jio_3599",
+      "amount": 3599,
+      "validity": "365 Days",
+      "desc": "2.5 GB/Day, Annual Plan, Unlimited 5G"
+    }
+  ],
+  "AIRTEL": [
+    {
+      "id": "air_19",
+      "amount": 19,
+      "validity": "1 Day",
+      "desc": "Data Pack: 1 GB Data"
+    },
+    {
+      "id": "air_349",
+      "amount": 349,
+      "validity": "28 Days",
+      "desc": "1.5 GB/Day, Unlimited Voice"
+    },
+    {
+      "id": "airtel_1782121217577",
+      "amount": 249,
+      "validity": "28",
+      "desc": "1.5gb/day unlimted sms 2 mbps after 1.5gb"
+    }
+  ],
+  "VI": [
+    {
+      "id": "vi_299",
+      "amount": 299,
+      "validity": "28 Days",
+      "desc": "1.5 GB/Day, Hero Unlimited Night Data"
+    }
+  ]
+}

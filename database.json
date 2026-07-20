@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Manimaran (Master)",
+    "username": "manimaran",
+    "password": "123",
+    "role": "ADMIN",
+    "balance": "500004.38"
+  },
+  {
+    "name": "Kanniyappan",
+    "username": "9176682226",
+    "password": "123",
+    "role": "RETAILER",
+    "balance": "1003.28"
+  },
+  {
+    "name": "blessy",
+    "username": "9500248617",
+    "password": "123",
+    "role": "CUSTOMER",
+    "balance": "281.00"
+  }
+]

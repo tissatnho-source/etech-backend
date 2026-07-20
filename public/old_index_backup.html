@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eCASH Smart Custom Plan Terminal</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f1f5f9; color: #334155; }
+        .login-container { max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #1d4ed8; }
+        .dashboard { display: none; padding: 20px; }
+        header { background: #1e293b; color: white; padding: 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+        @media(max-width: 992px) { .grid { grid-template-columns: 1fr; } }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); margin-bottom: 20px; border: 1px solid #e2e8f0; }
+        .card h3 { border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; font-size: 16px; color: #1e293b; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f8fafc; color: #64748b; }
+        .badge { padding: 4px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .badge-admin { background: #fee2e2; color: #991b1b; }
+        .badge-retailer { background: #dcfce7; color: #166534; }
+        .badge-customer { background: #e0f2fe; color: #0369a1; }
+        
+        /* 📌 PLANS STYLES */
+        .plans-container { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 10px; max-height: 180px; overflow-y: auto; padding-right: 5px; }
+        .plan-card { border: 1px solid #e2e8f0; padding: 10px; border-radius: 6px; cursor: pointer; background: #fafafa; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
+        .plan-card:hover { background: #eff6ff; border-color: #3b82f6; }
+        .op-title { font-size: 11px; font-weight: bold; color: #64748b; text-transform: uppercase; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN PANEL -->
+    <div id="loginSection" class="login-container">
+        <h2>📲 eCASH Custom Plan Portal</h2>
+        <input type="text" id="username" placeholder="Username / Mobile" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="handleLogin()">Secure Login</button>
+        <p id="loginError" style="color: red; margin-top: 10px; display: none;"></p>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div id="dashboardSection" class="dashboard">
+        <header>
+            <div>
+                <h2 id="welcomeText">Terminal Dashboard</h2>
+                <div id="userWallet" style="font-weight: bold; color: #38bdf8; font-size: 18px; margin-top:5px;">Wallet: ₹0.00</div>
+            </div>
+            <button onclick="location.reload()" style="width: auto; padding: 8px 20px; background: #ef4444;">Logout</button>
+        </header>
+
+        <div class="grid">
+            <!-- LEFT PANEL -->
+            <div>
+                <!-- RECHARGE ACTION -->
+                <div class="card">
+                    <h3>⚡ Quick Utility Recharge</h3>
+                    <select id="rechargeType" onchange="updateOperatorList()">
+                        <option value="mobile">Mobile Recharge</option>
+                        <option value="dth">DTH Recharge</option>
+                    </select>
+                    
+                    <!-- ஆபரேட்டரை மாற்றும்போது தானாகவே பிளான்கள் மாறும் (onchange="fetchTariffPlans('USER')") -->
+                    <select id="rechargeOperator" onchange="fetchTariffPlans('USER')">
+                        <!-- Loaded dynamically -->
+                    </select>
+
+                    <input type="text" id="rechargeNumber" placeholder="Enter Mobile / Subscriber ID">
+                    
+                    <!-- 📌 இந்த ஆபரேட்டருக்குரிய பிரத்யேக பிளான்கள் மட்டும் இங்கே தோன்றும் -->
+                    <div class="op-title">Available Operator Plans:</div>
+                    <div id="plansWrapper" class="plans-container"></div>
+
+                    <input type="number" id="rechargeAmount" placeholder="Enter Amount (₹)" style="margin-top: 15px;">
+                    <button onclick="triggerRecharge()" style="background: #10b981; margin-top: 10px;">Pay & Recharge Now</button>
+                </div>
+
+                <!-- ADMIN MANUAL TARIFF MANAGER -->
+                <div id="adminPlanManagerCard" class="card" style="display:none; background:#fffbeb; border:1px solid #fef08a;">
+                    <h3 style="color:#a16207;">👑 Manual Plan Manager (By Operator)</h3>
+                    <label style="font-size:12px; font-weight:bold;">Select Target Operator:</label>
+                    <select id="admPlanOp" onchange="fetchTariffPlans('ADMIN')">
+                        <option value="JIO">Jio</option>
+                        <option value="AIRTEL">Airtel</option>
+                        <option value="BSNL">BSNL</option>
+                        <option value="SUN_DIRECT">Sun Direct</option>
+                        <option value="TATA_PLAY">Tata Play</option>
+                        <option value="DISH_TV">Dish TV</option>
+                    </select>
+                    <input type="number" id="admPlanAmt" placeholder="Plan Amount (₹)">
+                    <input type="text" id="admPlanVal" placeholder="Validity (e.g. 28 Days)">
+                    <input type="text" id="admPlanDesc" placeholder="Description (e.g. 1.5GB/Day)">
+                    <button onclick="adminAddPlan()" style="background:#d97706; margin-bottom:10px;">➕ Add Plan to Selected Operator</button>
+                    
+                    <div class="op-title" style="color:#a16207;">Live Active Plans for Selected Operator:</div>
+                    <div id="adminPlansWrapper" class="plans-container"></div>
+                </div>
+
+                <!-- MASTER COMMISSION CONFIG -->
+                <div id="adminConfigCard" class="card" style="display:none;">
+                    <h3>🛠️ ZuelPay Master Margins</h3>
+                    <input type="number" id="cfgMobile" step="0.1" placeholder="Mobile Comm %">
+                    <input type="number" id="cfgDth" step="0.1" placeholder="DTH Comm %">
+                    <button onclick="saveCommission()">Save API Slab</button>
+                </div>
+
+                <!-- ACCOUNT MANAGEMENT -->
+                <div id="adminCreateCard" class="card" style="display:none;">
+                    <h3>👤 Create New Account</h3>
+                    <input type="text" id="newUsername" placeholder="Username (Mobile)">
+                    <input type="password" id="newPassword" placeholder="Password">
+                    <input type="text" id="newName" placeholder="Full Name">
+                    <select id="newRole"><option value="CUSTOMER">CUSTOMER</option><option value="RETAILER">RETAILER</option></select>
+                    <input type="text" id="referredBy" placeholder="Referred By Retailer ID">
+                    <button onclick="createNewUser()" style="background: #4f46e5;">Create Account Now</button>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: TABLES -->
+            <div>
+                <div class="card">
+                    <h3>👥 System User Base</h3>
+                    <table id="userTable"><thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Wallet</th></tr></thead><tbody></tbody></table>
+                </div>
+                <div class="card">
+                    <h3>📜 Ledger Accounting Statement</h3>
+                    <table id="ledgerTable"><thead><tr><th>Txn ID</th><th>User Info</th><th>Type</th><th>Amt</th><th>Admin</th><th>Ret</th><th>Status</th></tr></thead><tbody></tbody></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let CURRENT_USER = null;
+
+        function updateOperatorList() {
+            const type = document.getElementById('rechargeType').value;
+            const opSelect = document.getElementById('rechargeOperator');
+            opSelect.innerHTML = '';
+            
+            if(type === 'mobile') {
+                opSelect.innerHTML = `
+                    <option value="JIO">Reliance Jio</option>
+                    <option value="AIRTEL">Bharti Airtel</option>
+                    <option value="BSNL">BSNL</option>
+                `;
+            } else {
+                opSelect.innerHTML = `
+                    <option value="SUN_DIRECT">Sun Direct</option>
+                    <option value="TATA_PLAY">Tata Play</option>
+                    <option value="DISH_TV">Dish TV</option>
+                `;
+            }
+            // ஆபரேட்டர் லிஸ்ட் மாறியவுடன் அந்த முதல் ஆபரேட்டரின் பிளான்களை உடனே லோடு செய்ய
+            fetchTariffPlans('USER');
+        }
+
+        // 📌 குறிப்பிட்ட ஆபரேட்டரின் பிளான்களை மட்டும் ஃபில்டர் செய்து காட்டும் மேஜிக் ஃபங்ஷன்
+        async function fetchTariffPlans(roleMode) {
+            const operator = roleMode === 'ADMIN' ? document.getElementById('admPlanOp').value : document.getElementById('rechargeOperator').value;
+            const wrapper = roleMode === 'ADMIN' ? document.getElementById('adminPlansWrapper') : document.getElementById('plansWrapper');
+            
+            wrapper.innerHTML = '<p style="font-size:12px; color:gray; padding:5px;">Loading plans...</p>';
+
+            try {
+                const res = await fetch(`/api/plans/${operator}`);
+                const data = await res.json();
+                wrapper.innerHTML = '';
+
+                if(data.success && data.plans.length > 0) {
+                    data.plans.forEach(p => {
+                        if(roleMode === 'ADMIN') {
+                            wrapper.innerHTML += `
+                                <div class="plan-card">
+                                    <div><b>₹${p.amount}</b> (${p.validity})<br><small>${p.desc}</small></div>
+                                    <button onclick="adminDeletePlan('${operator}','${p.id}')" style="width:auto; padding:4px 8px; background:#ef4444; font-size:11px;">Delete</button>
+                                </div>`;
+                        } else {
+                            wrapper.innerHTML += `
+                                <div class="plan-card" onclick="selectPlanAmount(${p.amount})">
+                                    <div><b>₹${p.amount}</b> - ${p.validity}<br><small>${p.desc}</small></div>
+                                    <span style="color:#2563eb; font-weight:bold; font-size:12px;">Select</span>
+                                </div>`;
+                        }
+                    });
+                } else { 
+                    wrapper.innerHTML = '<p style="font-size:12px; color:#94a3b8; padding:5px;">No custom plans available for this operator.</p>'; 
+                }
+            } catch(e) { wrapper.innerHTML = 'Error loading plans.'; }
+        }
+
+        function selectPlanAmount(amt) { 
+            document.getElementById('rechargeAmount').value = amt; 
+        }
+
+        async function adminAddPlan() {
+            const operator = document.getElementById('admPlanOp').value;
+            const amount = document.getElementById('admPlanAmt').value;
+            const validity = document.getElementById('admPlanVal').value;
+            const desc = document.getElementById('admPlanDesc').value;
+
+            if(!amount || !validity) return alert("Please enter amount and validity!");
+
+            const res = await fetch('/api/admin/plans/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ operator, amount, validity, desc })
+            });
+            const d = await res.json(); 
+            alert(d.message);
+            
+            // ஃபீல்டுகளை கிளியர் செய்ய
+            document.getElementById('admPlanAmt').value = '';
+            document.getElementById('admPlanVal').value = '';
+            document.getElementById('admPlanDesc').value = '';
+            
+            fetchTariffPlans('ADMIN');
+            fetchTariffPlans('USER'); // மெயின் ரீசார்ஜ் கார்டையும் புதுப்பிக்க
+        }
+
+        async function adminDeletePlan(operator, planId) {
+            if(!confirm("Delete this plan?")) return;
+            const res = await fetch('/api/admin/plans/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ operator, planId })
+            });
+            const d = await res.json(); 
+            alert(d.message);
+            fetchTariffPlans('ADMIN');
+            fetchTariffPlans('USER');
+        }
+
+        async function handleLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            try {
+                const res = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, password }) });
+                const data = await res.json();
+                if(data.success) {
+                    CURRENT_USER = data.user;
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('dashboardSection').style.display = 'block';
+                    document.getElementById('welcomeText').innerText = `${data.user.name} [${data.role}]`;
+                    
+                    updateOperatorList(); // இது தானாகவே முதல் ஆபரேட்டரின் பிளான்களை லோடு செய்யும்.
+                    
+                    if(data.role === 'ADMIN') {
+                        document.getElementById('adminConfigCard').style.display = 'block';
+                        document.getElementById('adminCreateCard').style.display = 'block';
+                        document.getElementById('adminPlanManagerCard').style.display = 'block';
+                        loadCommissionConfig();
+                        fetchTariffPlans('ADMIN'); // அட்மினுக்கான பிளான் லிஸ்ட்
+                    }
+                    loadDashboardData();
+                } else { document.getElementById('loginError').innerText = data.message; document.getElementById('loginError').style.display='block'; }
+            } catch(e) {}
+        }
+
+        async function loadDashboardData() {
+            if(!CURRENT_USER) return;
+            try {
+                const rU = await fetch('/api/users/list'); const users = await rU.json();
+                const uB = document.querySelector('#userTable tbody'); uB.innerHTML = '';
+                users.forEach(u => {
+                    uB.innerHTML += `<tr><td><b>${u.name}</b></td><td>${u.username}</td><td><span class="badge badge-${u.role.toLowerCase()}">${u.role}</span></td><td>₹${parseFloat(u.balance).toFixed(2)}</td></tr>`;
+                    if(u.username === CURRENT_USER.username) document.getElementById('userWallet').innerText = `Wallet: ₹${parseFloat(u.balance).toFixed(2)}`;
+                });
+                const rL = await fetch('/api/recharge/history'); const history = await rL.json();
+                const lB = document.querySelector('#ledgerTable tbody'); lB.innerHTML = '';
+                history.reverse().forEach(h => {
+                    lB.innerHTML += `<tr><td><code>${h.id}</code></td><td>${h.customer}</td><td><b>${h.type}</b></td><td>₹${h.amount}</td><td style="color:green;">+₹${h.adminEarned.toFixed(2)}</td><td style="color:blue;">+₹${h.retailerEarned.toFixed(2)}</td><td><span style="color:green;">${h.status}</span></td></tr>`;
+                });
+            } catch(e) {}
+        }
+
+        async function triggerRecharge() {
+            const type = document.getElementById('rechargeType').value;
+            const number = document.getElementById('rechargeNumber').value;
+            const amount = document.getElementById('rechargeAmount').value;
+            if(!number || !amount) return alert("Fill all fields");
+            const res = await fetch('/api/recharge/do', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: CURRENT_USER.username, type, number, amount }) });
+            const data = await res.json(); alert(data.message); loadDashboardData();
+        }
+
+        async function loadCommissionConfig() {
+            const r = await fetch('/api/config/commission'); const d = await r.json();
+            document.getElementById('cfgMobile').value = d.total_mobile; document.getElementById('cfgDth').value = d.total_dth;
+        }
+
+        async function saveCommission() {
+            const total_mobile = document.getElementById('cfgMobile').value; const total_dth = document.getElementById('cfgDth').value;
+            const res = await fetch('/api/config/commission', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ total_mobile, total_dth }) });
+            const d = await res.json(); alert(d.message);
+        }
+    </script>
+</body>
+</html>
