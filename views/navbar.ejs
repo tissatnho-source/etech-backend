@@ -6,35 +6,55 @@
 
         <!-- PROJECTS Dropdown -->
         <div class="nav-item dropdown menu-container">
-            <a class="nav-link" href="#">PROJECTS</a>
+            <a class="nav-link" href="#">PROJECTS <span>▼</span></a>
             <ul class="dropdown-menu custom-dropdown">
+                
+                <!-- 1. Recharge & Bill Payments -->
                 <li class="dropdown-submenu">
-                    <a class="dropdown-item" href="#">RECHARGE & BILLS <span>▶</span></a>
+                    <a class="dropdown-item" href="#">RECHARGE & BILL PAYMENTS <span>▶</span></a>
                     <ul class="submenu">
                         <li><a class="dropdown-item" href="/mobile-prepaid">Mobile Prepaid</a></li>
+                        <li><a class="dropdown-item" href="/mobile-postpaid">Mobile Postpaid</a></li>
                         <li><a class="dropdown-item" href="/dth">DTH</a></li>
+                        <li><a class="dropdown-item" href="/broadband">Broadband</a></li>
+                        <li><a class="dropdown-item" href="/cable-tv">Cable TV</a></li>
+                        <li><a class="dropdown-item" href="/insurance">Insurance</a></li>
                     </ul>
                 </li>
+
+                <!-- 2. Etech Services -->
                 <li class="dropdown-submenu">
                     <a class="dropdown-item" href="#">ETECH SERVICES <span>▶</span></a>
                     <ul class="submenu">
-                        <li><a class="dropdown-item" href="/cable-tv">Cable TV</a></li>
-                        <li><a class="dropdown-item" href="/water">Water Supply</a></li>
+                        <li><a class="dropdown-item" href="/cable-tv-internet">Cable TV & Internet</a></li>
+                        <li><a class="dropdown-item" href="/self-drive-car">Self Drive Car & Travels</a></li>
+                        <li><a class="dropdown-item" href="/water-supply">Water Supply</a></li>
+                        <li><a class="dropdown-item" href="/groceries">Groceries</a></li>
+                        <li><a class="dropdown-item" href="/marriage-assembling">Marriage Assembling</a></li>
+                        <li><a class="dropdown-item" href="/advertising-marketing">Advertising & Marketing</a></li>
+                        <li><a class="dropdown-item" href="/excavators-cranes">Excavators and Cranes Booking</a></li>
                     </ul>
                 </li>
+
+                <!-- 3. Financial Services -->
                 <li class="dropdown-submenu">
                     <a class="dropdown-item" href="#">FINANCIAL SERVICES <span>▶</span></a>
                     <ul class="submenu">
                         <li><a class="dropdown-item" href="/cash-req">Cash Req</a></li>
+                        <li><a class="dropdown-item" href="/loan-collection">Loan Collection</a></li>
                         <li><a class="dropdown-item" href="/eb-bill">EB Bill</a></li>
+                        <li><a class="dropdown-item" href="/deposit-req">Deposit Req</a></li>
+                        <li><a class="dropdown-item" href="/new-loans">New Loans</a></li>
+                        <li><a class="dropdown-item" href="/new-invest">New Invest</a></li>
                     </ul>
                 </li>
+
             </ul>
         </div>
 
         <!-- PARTNER Dropdown -->
         <div class="nav-item dropdown menu-container">
-            <a class="nav-link" href="#">PARTNER</a>
+            <a class="nav-link" href="#">PARTNER <span>▼</span></a>
             <ul class="dropdown-menu custom-dropdown">
                 <li><a class="dropdown-item" href="/partner-list">PARTNER</a></li>
                 <li><a class="dropdown-item" href="/vendor-list">VENDOR</a></li>
@@ -53,21 +73,21 @@
 </div>
 
 <style>
-    /* 1. மெனு பார் (Flexbox மூலம் இருபுறம் பிரிக்கப்பட்டுள்ளது) */
-    .nav-bar { 
-        background-color: #0056b3; 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        padding: 0px 20px; 
-        width: 100%; 
-        margin: 0 auto; 
+    /* 1. மெனு பார் ஸ்டைல் */
+    .nav-bar {
+        background-color: #0056b3;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 20px;
+        width: 100%;
+        margin: 0 auto;
     }
 
     .nav-left {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 15px;
     }
 
     .nav-right {
@@ -75,18 +95,19 @@
         align-items: center;
     }
 
-    /* 2. மெனு லிங்க் ஸ்டைல் */
-    .nav-link { 
-        color: white !important; 
-        font-weight: 600; 
-        padding: 8px 15px !important; 
-        text-decoration: none; 
-        cursor: pointer; 
+    /* 2. மெனு லிங்க் ஸ்டைல் மற்றும் எழுத்து அளவு */
+    .nav-link {
+        color: white !important;
+        font-weight: 600;
+        font-size: 17px !important;
+        padding: 10px 15px !important;
+        text-decoration: none;
+        cursor: pointer;
     }
 
-    /* Logout பட்டனுக்கான தனித்துவமான தோற்றம் (விருப்பப்பட்டால் மாற்றிக்கொள்ளலாம்) */
+    /* Logout பட்டனுக்கான நிறம் */
     .logout-btn {
-        background-color: #dc3545; /* சிவப்பு நிறம் */
+        background-color: #dc3545;
         border-radius: 4px;
         transition: background 0.3s;
     }
@@ -94,44 +115,52 @@
         background-color: #bd2130 !important;
     }
 
-    /* 3. மெனு கன்டெய்னர் (Hover செயல்பாட்டிற்கு) */
+    /* 3. மெனு கன்டெய்னர் */
     .menu-container { position: relative; }
-    
-    /* மெனுவைத் திறக்க */
     .menu-container:hover .custom-dropdown { display: block !important; }
 
     /* 4. டிராப்-டவுன் */
-    .custom-dropdown { 
-        display: none; 
-        position: absolute; 
-        top: 100%; 
-        left: 0; 
-        background-color: #0056b3 !important; 
-        min-width: 250px; 
-        padding: 0; 
-        margin: 0; 
+    .custom-dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #0056b3 !important;
+        min-width: 270px;
+        padding: 0;
+        margin: 0;
         border: none;
         box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        z-index: 1000;
     }
 
-    .dropdown-item { color: white !important; padding: 10px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .dropdown-item { 
+        color: white !important; 
+        font-size: 15px !important; 
+        padding: 12px 20px; 
+        border-bottom: 1px solid rgba(255,255,255,0.1); 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-decoration: none;
+    }
     .dropdown-item:hover { background-color: #004494 !important; }
 
     /* 5. சப்-மெனு */
     .dropdown-submenu { position: relative; }
-    .submenu { 
-        display: none; 
-        position: absolute; 
-        top: 0; 
-        left: 100%; 
-        width: 250px; 
-        background-color: #0056b3 !important; 
-        padding: 0; 
-        margin: 0; 
+    .submenu {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 270px;
+        background-color: #0056b3 !important;
+        padding: 0;
+        margin: 0;
         border: none;
         box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        z-index: 1001;
     }
-    
-    /* குறிப்பிட்ட சப்-மெனுவை மட்டும் காட்ட */
+
     .dropdown-submenu:hover .submenu { display: block !important; }
 </style>

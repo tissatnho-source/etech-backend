@@ -18,22 +18,32 @@
             </button>
         </div>
 
-        <table class="table table-bordered">
+        <table class="table table-bordered align-middle">
             <thead>
                 <tr>
+                    <th>Partner ID</th>
                     <th>Name</th>
                     <th>Mobile</th>
+                    <th>District</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Functional Area</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <% partners.forEach(function(partner) { %>
                     <tr>
+                        <td><%= partner.code || partner.partnerCode || partner._id %></td>
                         <td><%= partner.name %></td>
                         <td><%= partner.mobile %></td>
+                        <td><%= partner.address && partner.address.district ? partner.address.district : (partner.district || '-') %></td>
+                        <td><%= partner.username || '-' %></td>
+                        <td>********</td>
+                        <td><%= partner.functionalArea || '-' %></td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-info"
-                                onclick="editPartner('<%= partner._id %>', '<%= partner.name %>', '<%= partner.mobile %>', '<%= partner.email %>', '<%= partner.address1 %>', '<%= partner.address2 %>', '<%= partner.state %>', '<%= partner.district %>', '<%= partner.pincode %>', '<%= partner.partnerCode %>', '<%= partner.referralCode %>', '<%= partner.username %>', '<%= partner.functionalArea ? partner.functionalArea.join(',') : '' %>')">
+                            <button type="button" class="btn btn-sm btn-info text-white fw-bold"
+                                onclick="editPartner('<%= partner._id %>', '<%= partner.name %>', '<%= partner.mobile %>', '<%= partner.email %>', '<%= partner.address1 %>', '<%= partner.address2 %>', '<%= partner.state %>', '<%= partner.district %>', '<%= partner.pincode %>', '<%= partner.partnerCode %>', '<%= partner.referralCode %>', '<%= partner.username %>', '<%= partner.functionalArea %>')">
                                 Edit
                             </button>
                         </td>
@@ -65,7 +75,7 @@
                         <div class="col-md-6"><label>Referral Code</label><input type="text" name="referralCode" class="form-control"></div>
                         <div class="col-md-6"><label>Username</label><input type="text" name="username" class="form-control" required></div>
                         <div class="col-md-6"><label>Password</label><input type="password" name="password" class="form-control" required></div>
-                        
+
                         <div class="col-12">
                             <label><b>Functional Area:</b></label>
                             <div class="border p-2 rounded">
@@ -103,7 +113,7 @@
                             <div class="col-md-6"><label>Referral Code</label><input type="text" name="referralCode" id="editReferralCode" class="form-control"></div>
                             <div class="col-md-6"><label>Username</label><input type="text" name="username" id="editUsername" class="form-control"></div>
                             <div class="col-md-6"><label>New Password</label><input type="password" name="password" class="form-control" placeholder="Leave blank to keep current"></div>
-                            
+
                             <div class="col-12">
                                 <label><b>Functional Area:</b></label>
                                 <div class="border p-2 rounded">
@@ -139,11 +149,11 @@
         document.getElementById('editUsername').value = username;
 
         // Checkboxes handling
-        let areas = functionalAreas.split(',');
+        let areas = functionalAreas ? functionalAreas.split(',') : [];
         document.querySelectorAll('#editPartnerForm input[name="functionalArea"]').forEach(cb => {
             cb.checked = areas.includes(cb.value);
         });
-        
+
         var myModal = new bootstrap.Modal(document.getElementById('editPartnerModal'));
         myModal.show();
     }
